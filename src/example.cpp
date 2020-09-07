@@ -52,6 +52,10 @@ namespace example_namespace
       ROS_ERROR("[ExampleClassNode] Could not read parameters!");
     }
 
+    initializeSubscribers();
+    initializePublishers();
+    initializeServices();
+
     return true;
   }
 
@@ -59,6 +63,49 @@ namespace example_namespace
   {
     return m_priv_nh.getParam("topic_sub", m_topic_sub) &&
            m_priv_nh.getParam("topic_pub", m_topic_pub);
+  }
+
+  void ExampleClassNode::initializeSubscribers()
+  {
+    ROS_INFO("[ExampleClassNode] Initializing Subscribers");
+    m_sub = m_nh.subscribe(m_topic_sub, 1, &example_namespace::ExampleClassNode::subscriberCallback, this);
+  }
+
+  void ExampleClassNode::initializePublishers()
+  {
+    ROS_INFO("[ExampleClassNode] Initializing Publishers");
+    m_pub = m_nh.advertise<std_msgs::Header>(m_topic_pub, 1);
+  }
+
+  void ExampleClassNode::initializeServices()
+  {
+    ROS_INFO("[ExampleClassNode] Initializing Services");
+    m_service = m_nh.advertiseService("example_node_service", &example_namespace::ExampleClassNode::serviceCallback, this);
+  }
+
+  void ExampleClassNode::subscriberCallback(const std_msgs::HeaderConstPtr &msg)
+  {
+    ROS_INFO_ONCE("[ExampleClassNodelet] Firs time subscriberCallback being called!");
+
+    // todo
+  }
+
+  void ExampleClassNode::publisherCallback(const std_msgs::HeaderConstPtr &msg)
+  {
+    ROS_INFO_ONCE("[ExampleClassNodelet] Firs time publisherCallback being called!");
+
+    // todo
+  }
+
+  bool ExampleClassNode::serviceCallback(std_srvs::Trigger::Request &req, std_srvs::Trigger::Response &res)
+  {
+    ROS_INFO("[ExampleClassNode] ServiceCallback being called!");
+
+    // todo
+
+    res.success = true;
+    res.message = ros::NodeHandle().getNamespace();
+    return true;
   }
 
   class ExampleClassNodelet : public nodelet::Nodelet
