@@ -1,0 +1,7 @@
+<library path="lib/libros_node_nodelet_example">
+  <class name="exampleNamespace/ExampleClassNodelet" type="exampleNamespace::ExampleClassNodelet" base_class_type="nodelet::Nodelet">
+    <description> 
+      Todo
+    </description>
+  </class>
+</library>

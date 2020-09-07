@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <!-- manager -->
+  <arg name="use_nodelet" default="true" />
+  <arg name="start_manager" default="true" />
+  <arg name="manager" default="standalone_nodelet" />
+
+  <!-- example node/nodelet parameters -->
+  <arg name="topic_sub" default="/topic_sub" />
+  <arg name="topic_pub" default="/topic_pub" />
+
+  <group ns="/example_namespace">
+
+    <node pkg="ros_node_nodelet_example" type="ros_node_nodelet_example_main" name="ExampleClassNode" unless="$(arg use_nodelet)" output="screen">
+      <param name="topic_sub" value="$(arg topic_sub)" />
+      <param name="topic_pub" value="$(arg topic_pub)" />
+    </node>
+
+    <node pkg="nodelet" type="nodelet" name="$(arg manager)" args="manager" if="$(arg start_manager)" output="screen" />
+
+    <node pkg="nodelet" type="nodelet" name="ExampleClassNodelet" args="load ros_node_nodelet_example/ExampleClassNodelet $(arg manager)" if="$(arg use_nodelet)" output="screen">
+      <param name="topic_sub" value="$(arg topic_sub)" />
+      <param name="topic_pub" value="$(arg topic_pub)" />
+    </node>
+
+  </group>
+</launch>
