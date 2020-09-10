@@ -16,6 +16,8 @@ find_package(catkin REQUIRED COMPONENTS
 	cv_bridge
 )
 
+find_package(OpenCV REQUIRED)
+
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -126,6 +128,12 @@ include_directories(
 ## Declare a C++ library
 add_library(${PROJECT_NAME}_lib
   src/example.cpp
+)
+
+
+target_link_libraries(${PROJECT_NAME}_lib
+	${catkin_LIBRARIES}
+	${OpenCV_LIBRARIES}
 )
 
 ## Add cmake target dependencies of the library
