@@ -11,6 +11,7 @@ namespace example_namespace
                                                                                                     m_running(false)
 
   {
+    initialize();
   }
 
   bool ExampleClassNode::start()
